@@ -4,10 +4,10 @@ import FaIcon from 'react-native-vector-icons/FontAwesome'
 import { Colors, Metrics } from '../../themes'
 import { secondsToMinutes } from '../../utils/commons'
 
-const NUMBER_ROW = 4
+const NUMBER_COL = 4
 const MAX_RANDOM = 4
 const MIN_RANDOM = 2
-const ITEM_SIZE = (Metrics.screenWidth - 2 * Metrics.screenPadding) / NUMBER_ROW
+const ITEM_SIZE = (Metrics.screenWidth - 2 * Metrics.screenPadding) / NUMBER_COL
 
 class Game extends Component {
 
@@ -38,7 +38,7 @@ class Game extends Component {
 
   generateGameData() {
     const data = []
-    for (let i = 0; i < NUMBER_ROW * NUMBER_ROW; i++) {
+    for (let i = 0; i < NUMBER_COL * NUMBER_COL; i++) {
       data.push({ value: 2 })
     }
 
@@ -61,45 +61,45 @@ class Game extends Component {
   }
 
   checkValidItem(idx, data) {
-    const rowIdx = Math.floor(idx / NUMBER_ROW)
-    const colIdx = idx % NUMBER_ROW
+    const rowIdx = Math.floor(idx / NUMBER_COL)
+    const colIdx = idx % NUMBER_COL
 
     let totalRedRow = 0
     let totalRedCol = 0
     let totalGreenRow = 0
     let totalGreenCol = 0
-    for (let i = 0; i < NUMBER_ROW; i++) {
-      if (data[rowIdx * NUMBER_ROW + i].value === 0) {
+    for (let i = 0; i < NUMBER_COL; i++) {
+      if (data[rowIdx * NUMBER_COL + i].value === 0) {
         totalRedRow++
       }
 
-      if (data[i * NUMBER_ROW + colIdx].value === 0) {
+      if (data[i * NUMBER_COL + colIdx].value === 0) {
         totalRedCol++
       }
 
-      if (data[rowIdx * NUMBER_ROW + i].value === 1) {
+      if (data[rowIdx * NUMBER_COL + i].value === 1) {
         totalGreenRow++
       }
 
-      if (data[i * NUMBER_ROW + colIdx].value === 1) {
+      if (data[i * NUMBER_COL + colIdx].value === 1) {
         totalGreenCol++
       }
 
-      if (i !== 0 && i !== NUMBER_ROW - 1) {
-        if (data[rowIdx * NUMBER_ROW + i + 1].value === data[rowIdx * NUMBER_ROW + i] &&
-          data[rowIdx * NUMBER_ROW + i - 1].value === data[rowIdx * NUMBER_ROW + i]) {
+      if (i !== 0 && i !== NUMBER_COL - 1) {
+        if (data[rowIdx * NUMBER_COL + i + 1].value === data[rowIdx * NUMBER_COL + i] &&
+          data[rowIdx * NUMBER_COL + i - 1].value === data[rowIdx * NUMBER_COL + i]) {
           return false
         }
 
-        if (data[(i + 1) * NUMBER_ROW + colIdx].value === data[i * NUMBER_ROW + colIdx] &&
-          data[(i - 1) * NUMBER_ROW + colIdx].value === data[i * NUMBER_ROW + colIdx]) {
+        if (data[(i + 1) * NUMBER_COL + colIdx].value === data[i * NUMBER_COL + colIdx] &&
+          data[(i - 1) * NUMBER_COL + colIdx].value === data[i * NUMBER_COL + colIdx]) {
           return false
         }
       }
     }
 
-    if (totalRedCol > NUMBER_ROW / 2 || totalRedRow > NUMBER_ROW / 2 ||
-      totalGreenCol > NUMBER_ROW / 2 || totalGreenRow > NUMBER_ROW / 2) {
+    if (totalRedCol > NUMBER_COL / 2 || totalRedRow > NUMBER_COL / 2 ||
+      totalGreenCol > NUMBER_COL / 2 || totalGreenRow > NUMBER_COL / 2) {
       return false
     }
 
@@ -116,13 +116,13 @@ class Game extends Component {
 
   checkComplete() {
     const { data } = this.state
-    for (let i = 0; i < NUMBER_ROW; i++) {
+    for (let i = 0; i < NUMBER_COL; i++) {
       let totalRedRow = 0
       let totalRedCol = 0
 
-      for (let j = 0; j < NUMBER_ROW; j++) {
-        const idxInRow = i * NUMBER_ROW + j // { row: i, col: j } => Loop over row i
-        const idxInCol = j * NUMBER_ROW + i // { row: j, col: i } => Loop over col i
+      for (let j = 0; j < NUMBER_COL; j++) {
+        const idxInRow = i * NUMBER_COL + j // { row: i, col: j } => Loop over row i
+        const idxInCol = j * NUMBER_COL + i // { row: j, col: i } => Loop over col i
 
         if (data[idxInRow].value === 2) {
           return
@@ -139,15 +139,15 @@ class Game extends Component {
         }
 
         // check color in row
-        if (j !== 0 && j !== NUMBER_ROW - 1) {
+        if (j !== 0 && j !== NUMBER_COL - 1) {
 
           if (data[idxInRow - 1].value === data[idxInRow].value &&
             data[idxInRow + 1].value === data[idxInRow].value) {
             return
           }
 
-          const idxPrevRow = (j - 1) * NUMBER_ROW + i // { row: j - 1, col: i }
-          const idxNextRow = (j + 1) * NUMBER_ROW + i // { row: j + 1, col: i }
+          const idxPrevRow = (j - 1) * NUMBER_COL + i // { row: j - 1, col: i }
+          const idxNextRow = (j + 1) * NUMBER_COL + i // { row: j + 1, col: i }
           if (data[idxPrevRow].value === data[idxInCol].value &&
             data[idxNextRow].value === data[idxInCol].value) {
             return
@@ -155,7 +155,7 @@ class Game extends Component {
         }
       }
 
-      if (totalRedCol !== NUMBER_ROW / 2 || totalRedRow !== NUMBER_ROW / 2) {
+      if (totalRedCol !== NUMBER_COL / 2 || totalRedRow !== NUMBER_COL / 2) {
         return
       }
     }
@@ -164,8 +164,8 @@ class Game extends Component {
   }
 
   renderItem({ item, index }) {
-    const rowIdx = Math.floor(index / NUMBER_ROW)
-    const colIdx = index % NUMBER_ROW
+    const rowIdx = Math.floor(index / NUMBER_COL)
+    const colIdx = index % NUMBER_COL
 
     const itemAutoGenStyle = item.isAutoGen ? styles.itemAutoGenStyle : {}
     let itemStyle = (rowIdx + colIdx) % 2 !== 0 ? styles.itemOdd : {}
@@ -219,7 +219,7 @@ class Game extends Component {
             style={styles.flatList}
             bounces={false}
             contentContainerStyle={styles.contentContainerStyle}
-            numColumns={4}
+            numColumns={NUMBER_COL}
             data={data}
             extraData={this.state}
             keyExtractor={(item, index) => index}
