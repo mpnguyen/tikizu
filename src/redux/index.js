@@ -4,6 +4,7 @@ import rootSaga from '../sagas'
 
 /* ------------- Assemble The Reducers ------------- */
 export const reducers = combineReducers({
+  game: require('./gameRedux').reducer,
   ranking: require('./rankingRedux').reducer,
 })
 

@@ -6,7 +6,7 @@ const MainStack = createStackNavigator({
   Welcome: { screen: Welcome },
   Game: { screen: Game },
 }, {
-  initialRouteName: 'Game',
+  initialRouteName: 'Welcome',
   headerMode: 'none',
 })
 
