@@ -7,6 +7,7 @@ import { generateGameData, checkComplete } from '../utils/gameHelper'
 const { Types, Creators } = createActions({
   generateGameDataRequest: null,
   changeValueItemRequest: ['index'],
+  finishGameRequest: ['time', 'callback'],
 })
 
 export const GameTypes = Types

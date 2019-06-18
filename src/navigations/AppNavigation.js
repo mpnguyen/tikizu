@@ -1,10 +1,12 @@
 import { createAppContainer, createStackNavigator } from 'react-navigation'
 import Welcome from '../containers/Welcome'
 import Game from '../containers/Game'
+import Ranking from '../containers/Ranking'
 
 const MainStack = createStackNavigator({
   Welcome: { screen: Welcome },
   Game: { screen: Game },
+  Ranking: { screen: Ranking },
 }, {
   initialRouteName: 'Welcome',
   headerMode: 'none',

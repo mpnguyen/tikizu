@@ -35,8 +35,13 @@ class Game extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    if (!prevProps.isComplete && this.props.isComplete) {
-      alert('Done') // eslint-disable-line
+    const { navigation, finishGameRequest, isComplete } = this.props
+    const { time } = this.state
+    if (!prevProps.isComplete && isComplete) {
+      finishGameRequest(time, (game) => {
+        navigation.navigate('Ranking', { game })
+      })
+
       if (this.timer) {
         clearInterval(this.timer)
       }
@@ -147,6 +152,7 @@ Game.propTypes = {
   data: PropTypes.array,
   changeValueItemRequest: PropTypes.func,
   generateGameDataRequest: PropTypes.func,
+  finishGameRequest: PropTypes.func,
   navigation: PropTypes.object,
 }
 
@@ -160,6 +166,8 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(GameActions.changeValueItemRequest(index)),
   generateGameDataRequest: () =>
     dispatch(GameActions.generateGameDataRequest()),
+  finishGameRequest: (time, callback) =>
+    dispatch(GameActions.finishGameRequest(time, callback)),
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(Game)
