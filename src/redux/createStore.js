@@ -1,6 +1,9 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import createSagaMiddleware from 'redux-saga'
 
+import Rehydration from '../services/Rehydration'
+import ReduxPersist from '../configs/ReduxPersist'
+
 // creates the store
 export default (rootReducer, rootSaga) => {
   /* ------------- Redux Configuration ------------- */
@@ -20,6 +23,11 @@ export default (rootReducer, rootSaga) => {
   // if Reactotron is enabled (default for __DEV__), we'll create the store through Reactotron
   const createAppropriateStore = createStore // eslint-disable-line
   const store = createAppropriateStore(rootReducer, compose(...enhancers))
+
+  // configure persistStore and check reducer version number
+  if (ReduxPersist.active) {
+    Rehydration.updateReducers(store)
+  }
 
   // kick off root saga
   let sagasManager = sagaMiddleware.run(rootSaga)

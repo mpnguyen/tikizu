@@ -72,17 +72,25 @@ export function generateGameData() {
 }
 
 export function checkComplete(data) {
+  const hashTableRow = {}
+  const hashTableCol = {}
+
   for (let i = 0; i < NUMBER_COL; i++) {
     let totalRedRow = 0
     let totalRedCol = 0
+    let rowValue = ''
+    let colValue = ''
 
     for (let j = 0; j < NUMBER_COL; j++) {
       const idxInRow = i * NUMBER_COL + j // { row: i, col: j } => Loop over row i
       const idxInCol = j * NUMBER_COL + i // { row: j, col: i } => Loop over col i
 
-      if (data[idxInRow].value === 2) {
+      if (data[idxInRow].value === 2 || data[idxInCol] === 2) {
         return false
       }
+
+      rowValue += data[idxInRow].value.toString()
+      colValue += data[idxInRow].value.toString()
 
       // Total red in row i
       if (data[idxInRow].value === 0) { // item color red 
@@ -109,6 +117,13 @@ export function checkComplete(data) {
           return false
         }
       }
+    }
+
+    if (hashTableRow[rowValue] || hashTableCol[colValue]) {
+      return false
+    } else {
+      hashTableRow[rowValue] = true
+      hashTableCol[colValue] = true
     }
 
     if (totalRedCol !== NUMBER_COL / 2 || totalRedRow !== NUMBER_COL / 2) {
