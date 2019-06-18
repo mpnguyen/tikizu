@@ -59,7 +59,7 @@ class Game extends Component {
   }
 
   restartGameRequest() {
-    Alert.alert('Thông báo', 'Bạn có chắc bạn muốn restart game?', [
+    Alert.alert('Thông báo', 'Bạn có chắc bạn muốn reset game?', [
       { text: 'Có', onPress: this.restartGame },
       { text: 'Không' },
     ])
@@ -67,7 +67,10 @@ class Game extends Component {
 
   goBack() {
     const { navigation } = this.props
-    navigation.goBack()
+    Alert.alert('Thông báo', 'Bạn có chắc bạn muốn thoát game?', [
+      { text: 'Có', onPress: navigation.goBack },
+      { text: 'Không' },
+    ])
   }
 
   renderItem({ item, index }) {

@@ -26,6 +26,7 @@ const finishGameRequest = (state, { time, callback }) => {
   let data = state.data || []
   data = data.concat(game)
   data = loSortBy(data, 'time')
+  data = data.slice(0, 5)
 
   if (callback) { callback(game) }
   return state.merge({ data })
